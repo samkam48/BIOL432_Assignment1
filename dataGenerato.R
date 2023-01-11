@@ -27,7 +27,8 @@ print(Observer)
 Measurements <- data.frame(Organism, Limb_width, Limb_length, Observer) #combine all vectors
 print(Measurements)
 
-getwd() #already in the folder I want
+getwd() 
+
+#setwd("./BIOL432_Assignment1") #already in the folder I want
 
 write.csv(Measurements, "measurements.csv", row.names = F) #export data frame to csv file
-  ## how to use relative path if you're already in the folder u want???
