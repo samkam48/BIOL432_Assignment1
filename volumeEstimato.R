@@ -35,6 +35,6 @@ str(Measurements)
 
 getwd()
 
-#setwd("./BIOL432_Assignment1") #already in the folder I want
+setwd("./")
 
 write.csv(Measurements, "measurements.csv", row.names = F) #export updated data frame to csv file
