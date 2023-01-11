@@ -29,6 +29,6 @@ print(Measurements)
 
 getwd() 
 
-#setwd("./BIOL432_Assignment1") #already in the folder I want
+setwd("./") #already in the folder I want
 
 write.csv(Measurements, "measurements.csv", row.names = F) #export data frame to csv file
