@@ -1,0 +1,90 @@
+---
+title: "Assignment_1"
+author: "Sam Kam"
+date: "2023-01-10"
+output: html_document
+---
+# R FUNdamentals
+
+[GitHub Repository](https://github.com/samkam48/BIOL432_Assignment1)
+
+## Setup
+```{r}
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+source("http://bit.ly/theme_pub")
+theme_set(theme_pub())
+```
+
+
+**1. Load the revised measurements.csv**
+```{r}
+Measurements <- read.csv("measurements.csv", header = T) 
+
+names(Measurements) 
+head(Measurements) 
+tail(Measurements) 
+dim(Measurements) 
+nrow(Measurements) 
+ncol(Measurements)
+str(Measurements)
+```
+
+**2. Use dplyr to sort the data by species, then by observer, then by limb volume**
+```{r}
+Measurements %>%
+  arrange(Organism, Observer, Limb_volume) 
+```
+
+**3. Create a table showing the average volume for each species**
+```{r}
+AvgVol <- Measurements %>% 
+  group_by(Organism) %>% 
+  summarise(Avg_vol = mean(Limb_volume))
+AvgVol
+```
+
+**4. Create a table showing the number of observations (i.e. rows) for each combination of species and observer.**
+```{r}
+NumObs <- Measurements %>% 
+  group_by(Organism, Observer) %>% 
+  count(Observer)
+NumObs
+```
+
+**5. Create a single box plot (or similar) to compare key features of the distributions of volumes for each species.**
+```{r}
+Measurements %>% 
+  ggplot(aes(x = Organism, y = Limb_volume)) +
+  geom_boxplot() +
+  xlab("Organism") +
+  ylab(expression("Limb Volume (in"^3*")"))
+```
+
+Figure 1: Limb Volume (in^3) compared in different organisms. The Dog has a greater interquartile range based on its long appearance. The Cat looks the most different compared to different organisms. The box appears smaller, thus, indicating less dispersed data. Overall, majority of the organisms other than the raccoon have a greater range for the overall sample. We observe this by looking at the length of the whiskers. 
+
+**6. Create a multi-panel plot showing frequency histograms for each species. Note that this may require you to add code to you R markdown file to change the data from the wide to long format.**
+```{r}
+#create new dataset in long format
+Long_Measurements <- pivot_longer(Measurements, 5) #5th column is the volume
+
+#check dataset
+names(Long_Measurements) 
+head(Long_Measurements) 
+tail(Long_Measurements) 
+dim(Long_Measurements) 
+nrow(Long_Measurements) 
+ncol(Long_Measurements)
+str(Long_Measurements)
+
+#create distributions
+Long_Measurements %>% 
+  ggplot(aes(x = value, colour = Organism, fill = Organism )) +
+  geom_histogram(alpha = 0.6, binwidth = 5) +
+  xlab(expression("Limb Volume (in"^3*")")) +
+  ylab("Count") +
+  facet_wrap(~Organism)
+```
+
+Figure 2: Frequency histograms for each species looking at limb volume (in^3). The data for the cat and wolf appear to have a positive skew, while the other organisms do not appear to be normally distributed.
