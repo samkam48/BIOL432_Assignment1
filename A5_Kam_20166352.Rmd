@@ -35,16 +35,16 @@ NewMeasurements <- MData %>%
 #add Sp column
 MData <- NewMeasurements %>% 
   select(Organism, Limb_width, Limb_length, Observer, Limb_volume) %>% 
-  mutate(FirstLetter=gsub("^([A-Za-z]).*", "\\1.", Organism)) %>% 
-  mutate(LastWord = gsub(".*^([A-Za-z])+.", "", Organism)) %>% 
-  unite(Sp, FirstLetter, LastWord, sep = "", remove = FALSE) %>% 
-  select(Organism, Limb_width, Limb_length, Observer, Limb_volume, Sp)
+  mutate(FirstLetter=gsub("^([A-Za-z]).*", "\\1.", Organism)) %>% #create new column to select first letter, add .
+  mutate(LastWord = gsub(".*^([A-Za-z])+.", "", Organism)) %>% #create new column to select last word
+  unite(Sp, FirstLetter, LastWord, sep = "", remove = FALSE) %>% #combine 2 columns into "Sp" column
+  select(Organism, Limb_width, Limb_length, Observer, Limb_volume, Sp) #delete 2 test columns
 ```
 
 **3. Use a dplyr command to create a new dataset BUT with Sp column instead of the Organism column, moved to the beginning in place of the original Organism column.**
 ```{r}
 NewMData <- MData %>% 
-  select("Sp", "Limb_width", "Limb_length", "Limb_volume", "Observer")
+  select("Sp", "Limb_width", "Limb_length", "Limb_volume", "Observer") #select columns in order of appearance
 ```
 
 **4. Save the dataset as a new file called MeasShort.csv**
